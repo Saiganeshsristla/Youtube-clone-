@@ -6,7 +6,7 @@ const VideoCard = ({ info }) => {
   const { channelTitle, title, thumbnails } = snippet;
   
   return (
-    <div className="m-2 w-96 shadow-lg">
+    <div className="m-2 w-[20rem] shadow-lg">
       <img
         className="w-full rounded-xl"
         alt="Thumbnail"

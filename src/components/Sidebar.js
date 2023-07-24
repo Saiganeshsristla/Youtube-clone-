@@ -9,7 +9,7 @@ const Sidebar = () => {
     }
 
   return (
-    <div className="ml-2 shadow-lg mt-2 p-2 w-60">
+    <div className="ml-2 shadow-lg mt-20 p-2 w-60">
       <ul className="m-2">
         <li className="p-1 ml-3 cursor-pointer font-medium"><Link to="/">Home</Link></li>
         <li className="p-1 ml-3 cursor-pointer font-medium">Shorts</li>
