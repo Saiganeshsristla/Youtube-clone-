@@ -1,16 +1,26 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/AppSlice";
 import { useEffect, useState } from "react";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
+import { cacheResults } from "../utils/searchSlice";
 
 const Header = () => {
   const [SearchQuery, setSearchQuery] = useState("");
   const [Suggestions, setSuggestions] = useState([]);
   const [ShowSuggestions, setShowSuggestions] = useState(false);
+  const searchCache = useSelector(store => store.search);
+
+  
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      getSuggestions();
+      
+      if(searchCache[SearchQuery]){
+        setSuggestions(searchCache[SearchQuery]);
+      }else{
+        getSuggestions();
+      }
     }, 200);
 
     return () => {
@@ -19,13 +29,14 @@ const Header = () => {
   }, [SearchQuery]);
 
   const getSuggestions = async () => {
+    console.log("API fetching..." + SearchQuery);
     const data = await fetch(YOUTUBE_SEARCH_API + SearchQuery);
     const json = await data.json();
 
     setSuggestions(json[1]);
+    dispatch(cacheResults({[SearchQuery]: json[1]}));
   };
 
-  const dispatch = useDispatch();
 
   const handleToggleMenu = () => {
     dispatch(toggleMenu());
@@ -64,15 +75,17 @@ const Header = () => {
             🔍
           </button>
         </div>
-        {ShowSuggestions && <div className="fixed bg-white w-[30rem] ml-2 px-3 py-3 shadow-lg rounded-lg">
-          <ul>
-            {Suggestions.map((Suggestion, i) => (
-              <li key={i} className="p-2 hover:bg-gray-100">
-                🔍 {Suggestion}
-              </li>
-            ))}
-          </ul>
-        </div>}
+        {ShowSuggestions && (
+          <div className="fixed bg-white w-[30rem] ml-2 px-3 py-3 shadow-lg rounded-lg">
+            <ul>
+              {Suggestions.map((Suggestion, i) => (
+                <li key={i} className="p-2 hover:bg-gray-100">
+                  🔍 {Suggestion}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       <div className="col-span-1">
