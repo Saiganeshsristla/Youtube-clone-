@@ -3,22 +3,21 @@ import { toggleMenu } from "../utils/AppSlice";
 import { useEffect, useState } from "react";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
 import { cacheResults } from "../utils/searchSlice";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [SearchQuery, setSearchQuery] = useState("");
   const [Suggestions, setSuggestions] = useState([]);
   const [ShowSuggestions, setShowSuggestions] = useState(false);
-  const searchCache = useSelector(store => store.search);
+  const searchCache = useSelector((store) => store.search);
 
-  
   const dispatch = useDispatch();
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      
-      if(searchCache[SearchQuery]){
+      if (searchCache[SearchQuery]) {
         setSuggestions(searchCache[SearchQuery]);
-      }else{
+      } else {
         getSuggestions();
       }
     }, 200);
@@ -34,9 +33,8 @@ const Header = () => {
     const json = await data.json();
 
     setSuggestions(json[1]);
-    dispatch(cacheResults({[SearchQuery]: json[1]}));
+    dispatch(cacheResults({ [SearchQuery]: json[1] }));
   };
-
 
   const handleToggleMenu = () => {
     dispatch(toggleMenu());
@@ -71,9 +69,11 @@ const Header = () => {
             onFocus={() => setShowSuggestions(true)}
             onBlur={() => setShowSuggestions(false)}
           ></input>
-          <button className="border border-gray-400 rounded-r-full bg-gray-200 h-8 px-4 pt-[0.5px]">
-            🔍
-          </button>
+          <a href={"/search/" + SearchQuery}>
+            <button className="border border-gray-400 rounded-r-full bg-gray-200 h-8 px-4 pt-[0.5px]">
+              🔍
+            </button>
+          </a>
         </div>
         {ShowSuggestions && (
           <div className="fixed bg-white w-[30rem] ml-2 px-3 py-3 shadow-lg rounded-lg">
