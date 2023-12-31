@@ -2,16 +2,18 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Sidebar = () => {
-    const isMenuOpen = useSelector((store) => store.app.isMenuOpen);
+  const isMenuOpen = useSelector((store) => store.app.isMenuOpen);
 
-    if(!isMenuOpen){
-        return null;
-    }
+  if (!isMenuOpen) {
+    return null;
+  }
 
   return (
-    <div className="ml-2 shadow-lg mt-20 p-2 w-60">
+    <div className="ml-2 shadow-lg mt-20 p-2 w-60 fixed">
       <ul className="m-2">
-        <li className="p-1 ml-3 cursor-pointer font-medium"><Link to="/">Home</Link></li>
+        <li className="p-1 ml-3 cursor-pointer font-medium">
+          <Link to="/">Home</Link>
+        </li>
         <li className="p-1 ml-3 cursor-pointer font-medium">Shorts</li>
         <li className="p-1 ml-3 cursor-pointer font-medium">Subsciptions</li>
       </ul>
@@ -23,7 +25,7 @@ const Sidebar = () => {
         <li className="p-1 ml-3 cursor-pointer font-medium">Watch laters</li>
         <li className="p-1 ml-3 cursor-pointer font-medium">Like videos</li>
       </ul>
-      
+
       <ul className="m-2 mt-4">
         <h1 className="font-bold text-lg ml-3">Explore</h1>
         <li className="p-1 ml-3 cursor-pointer font-medium">Trending</li>
@@ -36,7 +38,6 @@ const Sidebar = () => {
         <li className="p-1 ml-3 cursor-pointer font-medium">Sports</li>
         <li className="p-1 ml-3 cursor-pointer font-medium">Learning</li>
       </ul>
-      
     </div>
   );
 };
